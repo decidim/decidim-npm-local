@@ -33,3 +33,19 @@ $ cd path/to/decidim-instance
 $ npm i https://github.com/mainio/decidim-npm-local
 $ npm exec decidiminstall .
 ```
+
+Take a look at the project's `package.json`. It should now have the Decidim NPM
+dependencies listed in it.
+
+After the initial installation, you can re-install the NPM packages normally
+by running `npm i` at the project root. The tarballs are re-built on every
+installation thanks to the installation script shipped with this package.
+
+If you want to try that this **actually** works, try running the following
+commands after the initial installation:
+
+```bash
+$ rm -rf node_modules
+$ rm -rf tmp/npmbuild
+$ npm i
+```
