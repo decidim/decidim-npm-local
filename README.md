@@ -31,5 +31,5 @@ Install the NPM package by running:
 ```bash
 $ cd path/to/decidim-instance
 $ npm i https://github.com/mainio/decidim-npm-local
-$ npm exec decidiminstall
+$ npm exec decidiminstall .
 ```
