@@ -13,7 +13,7 @@
     "decidimpack": "bin/decidimpack.js"
   },
   "scripts": {
-    "install": "decidimpack $INIT_CWD"
+    "install": "bin/decidimpack.js $INIT_CWD"
   },
   "main": "index.js",
   "dependencies": {
