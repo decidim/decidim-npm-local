@@ -45,17 +45,20 @@ const resolveGemfileSource = (projectPath) => {
 
 module.exports = (projectPath) => {
   return new Promise((resolve, _reject) => {
-    resolveBundleSource(projectPath).then(
-      (source) => resolve(source),
-      () => {
-        resolveGemfileSource(projectPath).then(
+    const tryList = [resolveBundleSource, resolveGemfileSource];
+    const tryNext = () => {
+      const current = tryList.shift();
+      if (current) {
+        current(projectPath).then(
           (source) => resolve(source),
-          () => {
-            // Default to Decidim git repository
-            resolve("https://github.com/decidim/decidim/packages#develop");
-          }
+          () => tryNext()
         );
+      } else {
+        // Default to Decidim git repository
+        resolve("https://github.com/decidim/decidim/packages#develop");
       }
-    );
+    };
+
+    tryNext();
   });
 };
