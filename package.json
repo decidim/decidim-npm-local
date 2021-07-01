@@ -13,10 +13,11 @@
     "decidimpack": "bin/decidimpack.js"
   },
   "scripts": {
-    "install": "npx node bin/decidimpack.js $INIT_CWD"
+    "install": "bin/decidimpack.js $INIT_CWD"
   },
   "main": "index.js",
   "dependencies": {
+    "@snyk/gemfile": "github:ahukkanen/gemfile#fix/current-path-parent-path",
     "degit": "^2.8.4",
     "fs-extra": "^10.0.0"
   }
