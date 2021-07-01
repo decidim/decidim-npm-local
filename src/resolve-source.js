@@ -1,5 +1,18 @@
+const { exec } = require("child_process");
 const { parse: parseGemfile } = require("@snyk/gemfile");
 const path = require("path");
+
+const resolveBundleSource = (projectPath) => {
+  return new Promise((resolve, reject) => {
+    exec("bundle show decidim", { stdio: "pipe", cwd: projectPath }, (error, stdout) => {
+      if (error) {
+        reject();
+      } else {
+        resolve(`${stdout.trim()}/packages`);
+      }
+    });
+  });
+};
 
 const resolveGemfileSource = (projectPath) => {
   return new Promise((resolve, reject) => {
@@ -32,12 +45,17 @@ const resolveGemfileSource = (projectPath) => {
 
 module.exports = (projectPath) => {
   return new Promise((resolve, _reject) => {
-    resolveGemfileSource(projectPath).then(
+    resolveBundleSource(projectPath).then(
       (source) => resolve(source),
       () => {
-        // Default to Decidim git repository
-        resolve("https://github.com/decidim/decidim/packages#develop");
+        resolveGemfileSource(projectPath).then(
+          (source) => resolve(source),
+          () => {
+            // Default to Decidim git repository
+            resolve("https://github.com/decidim/decidim/packages#develop");
+          }
+        );
       }
     );
   });
-}
+};
